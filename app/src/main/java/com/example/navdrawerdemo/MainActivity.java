@@ -44,9 +44,9 @@ public class MainActivity extends AppCompatActivity {
         catList = catDAO.getAll();
 
         if (catList.size() == 0) {
-            catList.add(new CatObject(0, "bengal cat", R.drawable.bengal_icon));
-            catList.add(new CatObject(1, "persian cat", R.drawable.persian_icon));
-            catList.add(new CatObject(2, "siameser cat", R.drawable.siameser_cat_cart));
+            catList.add(new CatObject("bengal cat", R.drawable.bengal_icon));
+            catList.add(new CatObject("persian cat", R.drawable.persian_icon));
+            catList.add(new CatObject("siameser cat", R.drawable.siameser_cat_cart));
             catDAO.insertAll(catList.get(0));
             catDAO.insertAll(catList.get(1));
             catDAO.insertAll(catList.get(2));

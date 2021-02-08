@@ -117,7 +117,7 @@ public class Dashboard extends AppCompatActivity {
         ImageView imgV = (ImageView) findViewById(R.id.CatImage);
         imgV.setImageDrawable(newCat.getDrawable());
 
-        CatObject uploadedCat = new CatObject(catList.size() + 1, newCatName, R.id.newCatImage);
+        CatObject uploadedCat = new CatObject(newCatName, R.id.newCatImage);
         catList.add(uploadedCat);
         catDAO.insertAll(uploadedCat);
         //test

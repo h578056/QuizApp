@@ -1,5 +1,6 @@
 package com.example.navdrawerdemo;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -8,8 +9,10 @@ import java.io.File;
 
 @Entity
 public class CatObject {
-    @PrimaryKey
-    public int uid;
+    @PrimaryKey(autoGenerate = true)
+    @NonNull
+    @ColumnInfo(name = "uid")
+    public int uid=0;
 
     @ColumnInfo(name = "cat_name")
     private String catName;
@@ -18,8 +21,7 @@ public class CatObject {
     private int imageName;
 
 
-    public CatObject(int uid, String catName, int imageName) {
-        this.uid = uid;
+    public CatObject(String catName, int imageName) {
         this.catName = catName;
         this.imageName = imageName;
     }
