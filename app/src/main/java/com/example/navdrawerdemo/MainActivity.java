@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SyncStatusObserver;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -44,12 +45,14 @@ public class MainActivity extends AppCompatActivity {
         catList = catDAO.getAll();
 
         if (catList.size() == 0) {
+            catList.add(new CatObject("siameser cat", R.drawable.siameser_cat_cart));
             catList.add(new CatObject("bengal cat", R.drawable.bengal_icon));
             catList.add(new CatObject("persian cat", R.drawable.persian_icon));
-            catList.add(new CatObject("siameser cat", R.drawable.siameser_cat_cart));
-            catDAO.insertAll(catList.get(0));
-            catDAO.insertAll(catList.get(1));
-            catDAO.insertAll(catList.get(2));
+            for(CatObject cat : catList){
+                catDAO.insertAll(cat);
+
+            }
+            System.out.println(catList.size()+ "---------------------------------------------------------");
             catList = catDAO.getAll();
         } else {
             catList = catDAO.getAll();
