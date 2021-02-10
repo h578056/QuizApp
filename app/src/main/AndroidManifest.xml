@@ -9,8 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.NavDrawerDemo">
-        <activity android:name=".AboutUs"></activity>
-        <activity android:name=".Dashboard" />
+        <activity android:name=".InfoQuizContent"></activity>
+        <activity android:name=".AddToQuiz" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,22 +1,13 @@
 package com.example.navdrawerdemo;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.room.Room;
 
-import android.content.Intent;
-import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -24,7 +15,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AboutUs extends AppCompatActivity {
+public class InfoQuizContent extends AppCompatActivity {
     DrawerLayout drawerLayout;
     List<CatObject> catList;
 
@@ -36,12 +27,7 @@ public class AboutUs extends AppCompatActivity {
 
         AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "database-name").allowMainThreadQueries().build();
         CatDAO catDAO = db.catDAO();
-
         catList = new ArrayList<>();
-/*        catList.add(new CatObject("bengal cat", R.drawable.bengal_icon));
-        catList.add(new CatObject("persian cat", R.drawable.persian_icon));
-        catList.add(new CatObject("siameser cat", R.drawable.siameser_cat_cart));*/
-
         catList = catDAO.getAll();
 
         dynamicTable();
@@ -64,7 +50,7 @@ public class AboutUs extends AppCompatActivity {
 
     public void clickDashBoard(View view) {
         //redirect activity to dashboard
-        MainActivity.redirectActivity(this, Dashboard.class);
+        MainActivity.redirectActivity(this, AddToQuiz.class);
     }
 
     public void clickAboutUs(View view) {
@@ -94,7 +80,7 @@ public class AboutUs extends AppCompatActivity {
             tr.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT));
 
             ImageView iView = new ImageView(this);
-            iView.setImageResource(catList.get(i).getImageName());
+            iView.setImageBitmap(catList.get(i).getImageNameBitmap());
             TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(100, 80);
             iView.setLayoutParams(layoutParams);
             TextView text = new TextView(this);

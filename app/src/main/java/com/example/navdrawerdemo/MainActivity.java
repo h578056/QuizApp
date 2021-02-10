@@ -4,14 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.room.Room;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SyncStatusObserver;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -20,6 +19,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
 
 public class MainActivity extends AppCompatActivity {
     public DrawerLayout drawerLayout;
@@ -36,18 +36,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         drawerLayout = findViewById(R.id.drawer_layout);
         catList = new ArrayList<>();
-/*        catList.add(new CatObject("bengal cat", R.drawable.bengal_icon));
-        catList.add(new CatObject("persian cat", R.drawable.persian_icon));
-        catList.add(new CatObject("siameser cat", R.drawable.siameser_cat_cart));*/
 
         AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "database-name").allowMainThreadQueries().build();
         CatDAO catDAO = db.catDAO();
         catList = catDAO.getAll();
 
         if (catList.size() == 0) {
-            catList.add(new CatObject("siameser cat", R.drawable.siameser_cat_cart));
-            catList.add(new CatObject("bengal cat", R.drawable.bengal_icon));
-            catList.add(new CatObject("persian cat", R.drawable.persian_icon));
+           // Drawable drawable= getResources().getDrawable(R.drawable.siameser_cat_cart); // converts image from drawable folder to drawable object
+            catList.add(new CatObject("siameser cat",getResources().getDrawable( R.drawable.siameser_cat_cart))); //converts image from dravable folder to drawable object and puts im constructor
+            catList.add(new CatObject("bengal cat", getResources().getDrawable(R.drawable.bengal_icon)));
+            catList.add(new CatObject("persian cat", getResources().getDrawable(R.drawable.persian_icon)));
             for(CatObject cat : catList){
                 catDAO.insertAll(cat);
 
@@ -65,8 +63,9 @@ public class MainActivity extends AppCompatActivity {
         ImageView mImageView = (ImageView) findViewById(R.id.myImageView);
         CatObject catRandObj = getRandomElement(catList);
         currentCat = catRandObj;
-        int catObjectImageCode = catRandObj.getImageName(); //catList.get(imageId).getImageName()
-        mImageView.setBackgroundResource(catObjectImageCode);
+        Bitmap bitmap = catRandObj.getImageNameBitmap(); //get the bitmap not byte array
+        BitmapDrawable ob = new BitmapDrawable(getResources(), bitmap);
+        mImageView.setBackground(ob);
     }
 
     public CatObject getRandomElement(List<CatObject> list) {
@@ -102,11 +101,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void clickDashBoard(View view) {
         //redirect to dashboard
-        redirectActivity(this, Dashboard.class);
+        redirectActivity(this, AddToQuiz.class);
     }
 
     public void clickAboutUs(View view) {
-        redirectActivity(this, AboutUs.class);
+        redirectActivity(this, InfoQuizContent.class);
     }
 
     public void clickLogout(View view) {

@@ -1,6 +1,5 @@
 package com.example.navdrawerdemo;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.room.Room;
@@ -8,21 +7,22 @@ import androidx.room.Room;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Dashboard extends AppCompatActivity {
+public class AddToQuiz extends AppCompatActivity {
     public static final int GET_FROM_GALLERY = 3;
     DrawerLayout drawerLayout;
     ImageView newCat;
@@ -65,7 +65,7 @@ public class Dashboard extends AppCompatActivity {
 
     public void clickAboutUs(View view) {
         //redirect to about us
-        MainActivity.redirectActivity(this, AboutUs.class);
+        MainActivity.redirectActivity(this, InfoQuizContent.class);
     }
 
     public void clickLogout(View view) {
@@ -103,7 +103,7 @@ public class Dashboard extends AppCompatActivity {
         }
     }
 
-    public void addCat(View View) {
+    public void addCat(View View) { // NB added photo must be PNG
 
         AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "database-name").allowMainThreadQueries().build();
         CatDAO catDAO = db.catDAO();
@@ -113,17 +113,22 @@ public class Dashboard extends AppCompatActivity {
         String newCatName = mEdit.getText().toString();
         TextView catName = (TextView) findViewById(R.id.catNameOfAddedCat);
         catName.setText(newCatName);
-        newCat.getDrawable();
+     //   newCat.getDrawable(); // is this needed?
         ImageView imgV = (ImageView) findViewById(R.id.CatImage);
         imgV.setImageDrawable(newCat.getDrawable());
 
-        CatObject uploadedCat = new CatObject(newCatName, R.id.newCatImage);
+        byte[] imageInByte= convertByteArr(imgV); // takes imageView and converts to byteArray
+
+        CatObject uploadedCat = new CatObject(newCatName, imageInByte);
         catList.add(uploadedCat);
         catDAO.insertAll(uploadedCat);
-        //test
-        System.out.println(newCatName + newCat.getDrawable());
-
-
+    }
+    public byte[] convertByteArr(ImageView iv){ // method converts from image int code to imageview then to byte array
+        Bitmap bitmap = ((BitmapDrawable) iv.getDrawable()).getBitmap();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos); // NB image needs to be PNG
+        byte[] imageInByte = baos.toByteArray();
+        return imageInByte;
     }
 
 

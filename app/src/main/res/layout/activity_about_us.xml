@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:id="@+id/drawer_layout"
     android:padding="10dp"
-    tools:context=".AboutUs">
+    tools:context=".InfoQuizContent">
 
     <LinearLayout
         android:layout_width="match_parent"
