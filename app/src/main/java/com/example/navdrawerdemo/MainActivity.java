@@ -25,16 +25,22 @@ public class MainActivity extends AppCompatActivity {
     public DrawerLayout drawerLayout;
     public List<CatObject> catList;
     public String scoreTxt = "Score";
-    public CatObject currentCat;
+    public  static CatObject currentCat;
     public int correctAns = 0;
     public int totalAns = 0;
+    public TextView tvScore;
+    public String textScore;
 
+    public static CatObject getCurrentCat(){
+        return currentCat;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         drawerLayout = findViewById(R.id.drawer_layout);
+        tvScore= findViewById(R.id.score);
         catList = new ArrayList<>();
 
         AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "database-name").allowMainThreadQueries().build();
@@ -170,12 +176,26 @@ public class MainActivity extends AppCompatActivity {
     public void increaseScore() {
         TextView displayInteger = (TextView) findViewById(
                 R.id.score);
-        displayInteger.setText("Score: " + correctAns + "/" + totalAns);
+         textScore="Score: " + correctAns + "/" + totalAns;
+        displayInteger.setText(textScore);
     }
 
     public void showAns() {
         TextView displayInteger = (TextView) findViewById(
                 R.id.answer);
         displayInteger.setText("Correct answer: " + currentCat.getCatName());
+    }
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putString("totalAns", String.valueOf(totalAns));
+        savedInstanceState.putString("correctAns", String.valueOf(correctAns));
+    }
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        String cortxt = savedInstanceState.getString("correctAns");
+        String tottxt= savedInstanceState.getString("totalAns");
+        tvScore.setText("Score: " + cortxt  +"/"+ tottxt);
     }
 }

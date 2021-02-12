@@ -1,32 +1,44 @@
 package com.example.navdrawerdemo;
 
 import android.content.Context;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 import androidx.test.core.app.ApplicationProvider;
+import androidx.test.espresso.action.ViewActions;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.hasSibling;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withHint;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withTagValue;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.anything;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
@@ -39,11 +51,11 @@ public class EspressoTest{
     private CatObject cat2;
     private int lengthBefore=-1;
 
+    @Rule
+    public ActivityScenarioRule<MainActivity> activityRule = new ActivityScenarioRule<>(MainActivity.class);
+
     @Before
     public void createDb() {
-
-        //db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "database-name").allowMainThreadQueries().build();
-        //catDao = db.catDAO();
         Context context = ApplicationProvider.getApplicationContext();
         db = Room.inMemoryDatabaseBuilder(context, AppDatabase.class).build();
         catDao = db.catDAO();
@@ -59,8 +71,7 @@ public class EspressoTest{
         db.close();
     }
 
-    @Rule
-    public ActivityScenarioRule<MainActivity> activityRule = new ActivityScenarioRule<>(MainActivity.class);
+
     /*
     // public IntentsTestRule<MainActivity> intentsTestRule = new IntentsTestRule<>(MainActivity.class);
     @Test
@@ -77,13 +88,26 @@ public class EspressoTest{
         onView(withId(R.id.button1));
     }
     */
+
+
+    @Test
+    public void updateScoreOnCorrectAns(){ // insert value edit check if score update
+        List<CatObject> catList=catDao.getAll();
+        MainActivity.getCurrentCat();
+        String fasit =   MainActivity.getCurrentCat().getCatName();
+        onView(withId(R.id.editText1)).perform((typeText(fasit)), ViewActions.closeSoftKeyboard());
+        onView(withId(R.id.buttonAnswer)).perform(click());
+        onView(withId(R.id.score)).check(matches(withText("Score: 1/1")));
+
+    }
     @Test
     public void AddToList() throws Exception {
         catDao.insertAll(cat2);
         int amount= catDao.getAll().size();
         CatObject catRet= catDao.findByName(cat2.getCatName());
         assertThat(catRet.getCatName(), equalTo(cat2.getCatName()));
-       assertTrue(2 == amount);
+        assertTrue(Arrays.equals(catRet.getImageName(), cat2.getImageName()));
+        assertTrue(2 == amount);
     }
 
     @Test
