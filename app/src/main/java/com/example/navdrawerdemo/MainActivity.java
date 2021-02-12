@@ -50,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
                 catDAO.insertAll(cat);
 
             }
-            System.out.println(catList.size()+ "---------------------------------------------------------");
             catList = catDAO.getAll();
         } else {
             catList = catDAO.getAll();

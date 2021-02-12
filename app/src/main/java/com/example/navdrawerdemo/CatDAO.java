@@ -17,7 +17,10 @@ public interface CatDAO {
 
     @Query("SELECT * FROM catobject WHERE cat_name LIKE :cat AND " +
             "image_name LIKE :image LIMIT 1")
-    CatObject findByName(String cat, String image);
+    CatObject findByNameAndArr(String cat, String image);
+
+    @Query("SELECT * FROM catobject WHERE cat_name LIKE :cat ")
+    CatObject findByName(String cat);
 
     @Insert
     void insertAll(CatObject... catObjects);

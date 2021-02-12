@@ -30,6 +30,7 @@
         android:background="#636363"
         />
     <LinearLayout
+        android:id="@+id/to_quiz"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -40,7 +41,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Home"
+            android:text="Quiz"
             android:padding="12dp"
             android:layout_marginStart="16dp"
             />
@@ -49,7 +50,6 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="48dp"
             android:src="@drawable/ic_home"/>
-
     </LinearLayout>
 
     <LinearLayout
