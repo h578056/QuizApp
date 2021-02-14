@@ -1,7 +1,9 @@
 package com.example.navdrawerdemo;
 
 import android.content.Context;
+import android.widget.ImageView;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.action.ViewActions;
@@ -27,6 +29,8 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
@@ -77,6 +81,7 @@ public class EspressoTest{
         onView(withId(R.id.score)).check(matches(withText("Score: 1/1")));
 
     }
+    /*
     @Test
     public void AddToList() throws Exception {
         catDao.insertAll(cat2);
@@ -85,6 +90,17 @@ public class EspressoTest{
         assertThat(catRet.getCatName(), equalTo(cat2.getCatName()));
         assertTrue(Arrays.equals(catRet.getImageName(), cat2.getImageName()));
         assertTrue(2 == amount);
+    }
+    */
+
+    @Test
+    public void AddToList2() throws Exception {
+        onView(withId(R.id.toolbarBurger)).perform(click());
+        onView(withId(R.id.addToQuiz)).perform(click());
+        onView(withId(R.id.catNameInput)).perform((typeText("Test")), ViewActions.closeSoftKeyboard());
+        onView(withId(R.id.addCatButton)).perform(click());
+        assertNotNull(catDao.findByName("Test"));
+
     }
 
     @Test

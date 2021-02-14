@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -115,7 +116,12 @@ public class AddToQuiz extends AppCompatActivity {
         catName.setText(newCatName);
      //   newCat.getDrawable(); // is this needed?
         ImageView imgV = (ImageView) findViewById(R.id.CatImage);
-        imgV.setImageDrawable(newCat.getDrawable());
+        if(newCat!=null) {
+            imgV.setImageDrawable(newCat.getDrawable());
+        }else{
+            Drawable myIcon = getResources().getDrawable( R.drawable.cat_icon );
+            imgV.setImageDrawable(myIcon);
+        }
 
         byte[] imageInByte= convertByteArr(imgV); // takes imageView and converts to byteArray
 
