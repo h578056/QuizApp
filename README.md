@@ -1,5 +1,12 @@
 # QuizApp
 quizApp
+About the app, this is an app made in androidstudio. 
+Its a quiz where it shows a photo of a cat and the user needs to answer.
+the user also can add and delete entries for different cats(by adding a PNG image and a text). 
+
+
+
+[Log of running the tests]
 
 D:\skole-6-semester\QuizAppOblig2 (main -> origin)
 λ gradlew connectedAndroidTest
